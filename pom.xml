@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com</groupId>
-    <artifactId>WorkoutTracker</artifactId>
+    <artifactId>AirlineMicroservices</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>WorkoutTracker</name>
-    <description>WorkoutTracker</description>
+    <name>AirlineMicroservices</name>
+    <description>AirlineMicroservices</description>
     <url/>
     <licenses>
         <license/>
@@ -74,6 +74,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.airline_microservices.AirlineMicroservicesApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
