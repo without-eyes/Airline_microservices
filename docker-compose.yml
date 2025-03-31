@@ -1,0 +1,57 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    env_file:
+      - mysql.env
+    ports:
+      - "3307:3306"
+    networks:
+      - airline_network
+
+  flight-service:
+    build:
+      context: ./flight-service
+      dockerfile: Dockerfile
+    container_name: flight_service
+    env_file:
+      - mysql.env
+    depends_on:
+      - mysql
+    ports:
+      - "8081:8081"
+    networks:
+      - airline_network
+
+  crew-service:
+    build:
+      context: ./crew-service
+      dockerfile: Dockerfile
+    container_name: crew_service
+    env_file:
+      - mysql.env
+    depends_on:
+      - mysql
+    ports:
+      - "8082:8082"
+    networks:
+      - airline_network
+
+  account:
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    container_name: account_service
+    env_file:
+      - mysql.env
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+      - flight-service
+      - crew-service
+    networks:
+      - airline_network
+
+networks:
+  airline_network:
