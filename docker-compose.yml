@@ -37,21 +37,5 @@ services:
     networks:
       - airline_network
 
-  account:
-    build:
-      context: ./account-service
-      dockerfile: Dockerfile
-    container_name: account_service
-    env_file:
-      - mysql.env
-    ports:
-      - "8083:8083"
-    depends_on:
-      - mysql
-      - flight-service
-      - crew-service
-    networks:
-      - airline_network
-
 networks:
   airline_network:
