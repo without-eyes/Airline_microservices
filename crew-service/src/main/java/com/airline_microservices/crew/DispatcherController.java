@@ -16,19 +16,25 @@ public class DispatcherController {
     }
 
     @GetMapping("/{flightId}")
-    public List<CrewMember> getCrewByFlight(@PathVariable Long flightId) {
-        return crewMemberService.getCrewByFlight(flightId);
+    public ResponseEntity<List<CrewMember>> getCrewByFlight(@PathVariable Long flightId) {
+        List<CrewMember> crewMemberList = crewMemberService.getCrewByFlight(flightId);
+        if (crewMemberList.isEmpty()) {
+            return ResponseEntity.status(204).body(null);
+        } else {
+            return ResponseEntity.status(200).body(crewMemberList);
+        }
     }
 
     @PostMapping("/{flightId}")
-    public CrewMember addCrewMember(@PathVariable Long flightId, @RequestBody CrewMember crewMember) {
-        // Встановлюємо flightId замість об'єкта Flight
-        crewMember.setFlightId(flightId);
-        return crewMemberService.saveCrewMember(crewMember);
+    public ResponseEntity<CrewMember> addCrewMember(@PathVariable Long flightId, @RequestBody CrewMember crewMember) {
+        Flight flight = flightService.getFlightById(flightId);
+        crewMember.setFlight(flight);
+        return ResponseEntity.status(201).body(crewMemberService.saveCrewMember(crewMember));
     }
 
     @DeleteMapping("/{id}")
-    public void removeCrewMember(@PathVariable Long id) {
+    public ResponseEntity<CrewMember> removeCrewMember(@PathVariable Long id) {
         crewMemberService.deleteCrewMember(id);
+        return ResponseEntity.status(204).body(null);
     }
 }
