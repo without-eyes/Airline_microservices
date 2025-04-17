@@ -14,8 +14,11 @@ public class CrewMemberService {
         this.crewMemberRepository = crewMemberRepository;
     }
 
-    public List<CrewMember> getCrewByFlight(Long flightId) {
-        return crewMemberRepository.findByFlightId(flightId);
+    public List<CrewMember> getCrewByFlightWithFilters(Long flightId, String name, String role) {
+        return crewMemberRepository.findByFlightId(flightId).stream()
+                .filter(cm -> name == null || cm.getName().equalsIgnoreCase(name))
+                .filter(cm -> role == null || cm.getRole().equalsIgnoreCase(role))
+                .collect(Collectors.toList());
     }
 
     public CrewMember saveCrewMember(CrewMember crewMember) {
