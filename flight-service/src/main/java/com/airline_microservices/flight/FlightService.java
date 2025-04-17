@@ -14,8 +14,11 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> getAllFlights() {
-        return flightRepository.findAll();
+    public List<Flight> searchFlights(String destination, String departureTime) {
+        return flightRepository.findAll().stream()
+                .filter(f -> destination == null || f.getDestination().equalsIgnoreCase(destination))
+                .filter(f -> departureTime == null || f.getDepartureTime().equalsIgnoreCase(departureTime))
+                .collect(Collectors.toList());
     }
 
     public Flight getFlightById(Long id) {
