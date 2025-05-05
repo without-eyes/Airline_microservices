@@ -1,17 +1,18 @@
-package com.airline_microservices.controller;
+package com.airline_microservices.flight;
 
-import com.airline_microservices.model.Flight;
-import com.airline_microservices.service.FlightService;
+import com.airline_microservices.flight.Flight;
+import com.airline_microservices.flight.FlightService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin/flights")
-public class AdminController {
+public class FlightController {
     private FlightService flightService;
 
-    public AdminController(FlightService flightService) {
+    public FlightController(FlightService flightService) {
         this.flightService = flightService;
     }
 

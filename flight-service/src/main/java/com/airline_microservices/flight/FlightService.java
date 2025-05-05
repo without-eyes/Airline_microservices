@@ -1,8 +1,9 @@
-package com.airline_microservices.service;
+package com.airline_microservices.flight;
 
-import com.airline_microservices.model.Flight;
-import com.airline_microservices.repository.FlightRepository;
+import com.airline_microservices.flight.Flight;
+import com.airline_microservices.flight.FlightRepository;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import java.util.List;
 

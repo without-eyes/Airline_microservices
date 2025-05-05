@@ -1,8 +1,9 @@
-package com.airline_microservices.service;
+package com.airline_microservices.crew;
 
-import com.airline_microservices.model.CrewMember;
-import com.airline_microservices.repository.CrewMemberRepository;
+import com.airline_microservices.crew.CrewMember;
+import com.airline_microservices.crew.CrewMemberRepository;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collectors;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ public class CrewMemberService {
 
     public CrewMemberService(CrewMemberRepository crewMemberRepository) {
         this.crewMemberRepository = crewMemberRepository;
+    }
+
+    public List<CrewMember> getAllCrewByFlightWithFilters(String name, String role, boolean isAvailable) {
+        return crewMemberRepository.findAll().stream()
+                .filter(cm -> name == null || cm.getName().equalsIgnoreCase(name))
+                .filter(cm -> role == null || cm.getRole().equalsIgnoreCase(role))
+                .filter(cm -> !isAvailable || cm.getFlight() == null)
+                .collect(Collectors.toList());
     }
 
     public List<CrewMember> getCrewByFlightWithFilters(Long flightId, String name, String role) {

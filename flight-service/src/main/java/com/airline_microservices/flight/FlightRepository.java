@@ -1,6 +1,6 @@
-package com.airline_microservices.repository;
+package com.airline_microservices.flight;
 
-import com.airline_microservices.model.Flight;
+import com.airline_microservices.flight.Flight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

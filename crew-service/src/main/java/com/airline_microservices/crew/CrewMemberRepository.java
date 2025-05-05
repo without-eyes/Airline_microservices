@@ -1,6 +1,6 @@
-package com.airline_microservices.repository;
+package com.airline_microservices.crew;
 
-import com.airline_microservices.model.CrewMember;
+import com.airline_microservices.crew.CrewMember;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

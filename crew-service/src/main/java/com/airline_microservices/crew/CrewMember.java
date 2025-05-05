@@ -1,4 +1,4 @@
-package com.airline_microservices.model;
+package com.airline_microservices.crew;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

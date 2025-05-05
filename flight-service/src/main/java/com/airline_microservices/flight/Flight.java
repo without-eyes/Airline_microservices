@@ -1,4 +1,4 @@
-package com.airline_microservices.model;
+package com.airline_microservices.flight;
 
 import jakarta.persistence.*;
 import lombok.*;
