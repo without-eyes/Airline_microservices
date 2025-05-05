@@ -3,9 +3,11 @@ package com.airline_microservices.crew;
 import com.airline_microservices.crew.CrewMember;
 import com.airline_microservices.crew.CrewMemberRepository;
 import com.airline_microservices.crew.CrewMemberService;
+import com.airline_microservices.crew.FlightDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @RequestMapping("/dispatcher/crew")
 public class CrewController {
     @Autowired
-    private RestTemplateConfig restTemplate;
+    private RestTemplate restTemplate;
     private CrewMemberService crewMemberService;
 
     @Autowired
@@ -47,12 +49,23 @@ public class CrewController {
         }
     }
 
-//    @PostMapping("/{flightId}")
-//    public ResponseEntity<CrewMember> addCrewMember(@PathVariable Long flightId, @RequestBody CrewMember crewMember) {
-//        Flight flight = restTemplate.getForObject("http://localhost:8081/admin/flights/" + flightId, Flight.class);;
-//        crewMember.setFlight(flight);
-//        return ResponseEntity.status(201).body(crewMemberService.saveCrewMember(crewMember));
-//    }
+    @PostMapping
+    public ResponseEntity<CrewMember> createCrewMember(@RequestBody CrewMember crewMember) {
+        crewMember.setFlightId(-1L);
+        return ResponseEntity.status(201).body(crewMemberService.saveCrewMember(crewMember));
+    }
+
+    @PatchMapping("/{flightId}")
+    public ResponseEntity<FlightDTO> addCrewMemberToFlight(@PathVariable Long flightId, @RequestBody Long crewMemberId) {
+        FlightDTO flight = restTemplate.getForObject(
+                "http://flight-service:8081/admin/flights/" + flightId,
+                FlightDTO.class
+        );;
+        CrewMember crewMember = crewMemberService.getCrewMemberById(crewMemberId);
+        crewMember.setFlightId(flight.getId());
+        crewMemberService.saveCrewMember(crewMember);
+        return ResponseEntity.ok(flight);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CrewMember> removeCrewMember(@PathVariable Long id) {

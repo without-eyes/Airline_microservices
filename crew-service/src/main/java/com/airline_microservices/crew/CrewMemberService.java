@@ -19,7 +19,7 @@ public class CrewMemberService {
         return crewMemberRepository.findAll().stream()
                 .filter(cm -> name == null || cm.getName().equalsIgnoreCase(name))
                 .filter(cm -> role == null || cm.getRole().equalsIgnoreCase(role))
-                //.filter(cm -> !isAvailable || cm.getFlight() == null)
+                .filter(cm -> !isAvailable || cm.getFlightId() == -1)
                 .collect(Collectors.toList());
     }
 
@@ -28,6 +28,10 @@ public class CrewMemberService {
                 .filter(cm -> name == null || cm.getName().equalsIgnoreCase(name))
                 .filter(cm -> role == null || cm.getRole().equalsIgnoreCase(role))
                 .collect(Collectors.toList());
+    }
+
+    public CrewMember getCrewMemberById(Long crewMemberId) {
+        return crewMemberRepository.findById(crewMemberId).orElse(null);
     }
 
     public CrewMember saveCrewMember(CrewMember crewMember) {
