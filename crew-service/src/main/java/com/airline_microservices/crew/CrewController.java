@@ -1,18 +1,36 @@
-package com.airline_microservices.controller;
+package com.airline_microservices.crew;
 
-import com.airline_microservices.model.CrewMember;
-import com.airline_microservices.service.CrewMemberService;
+import com.airline_microservices.crew.CrewMember;
+import com.airline_microservices.crew.CrewMemberRepository;
+import com.airline_microservices.crew.CrewMemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/dispatcher/crew")
-public class DispatcherController {
+public class CrewController {
+    @Autowired
+    private RestTemplateConfig restTemplate;
     private CrewMemberService crewMemberService;
 
-    public DispatcherController(CrewMemberService crewMemberService) {
+    @Autowired
+    public CrewController(CrewMemberService crewMemberService) {
         this.crewMemberService = crewMemberService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CrewMember>> getCrewMembers(@RequestParam(required = false) String name,
+                                                           @RequestParam(required = false) String role,
+                                                           @RequestParam(required = false) boolean isAvailable) {
+        List<CrewMember> crewMemberList = crewMemberService.getAllCrewByFlightWithFilters(name, role, isAvailable);
+        if (crewMemberList.isEmpty()) {
+            return ResponseEntity.status(204).body(null);
+        } else {
+            return ResponseEntity.ok(crewMemberList);
+        }
     }
 
     @GetMapping("/{flightId}")
@@ -29,12 +47,12 @@ public class DispatcherController {
         }
     }
 
-    @PostMapping("/{flightId}")
-    public ResponseEntity<CrewMember> addCrewMember(@PathVariable Long flightId, @RequestBody CrewMember crewMember) {
-        Flight flight = flightService.getFlightById(flightId);
-        crewMember.setFlight(flight);
-        return ResponseEntity.status(201).body(crewMemberService.saveCrewMember(crewMember));
-    }
+//    @PostMapping("/{flightId}")
+//    public ResponseEntity<CrewMember> addCrewMember(@PathVariable Long flightId, @RequestBody CrewMember crewMember) {
+//        Flight flight = restTemplate.getForObject("http://localhost:8081/admin/flights/" + flightId, Flight.class);;
+//        crewMember.setFlight(flight);
+//        return ResponseEntity.status(201).body(crewMemberService.saveCrewMember(crewMember));
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CrewMember> removeCrewMember(@PathVariable Long id) {

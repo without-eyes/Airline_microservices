@@ -19,7 +19,7 @@ public class CrewMemberService {
         return crewMemberRepository.findAll().stream()
                 .filter(cm -> name == null || cm.getName().equalsIgnoreCase(name))
                 .filter(cm -> role == null || cm.getRole().equalsIgnoreCase(role))
-                .filter(cm -> !isAvailable || cm.getFlight() == null)
+                //.filter(cm -> !isAvailable || cm.getFlight() == null)
                 .collect(Collectors.toList());
     }
 
