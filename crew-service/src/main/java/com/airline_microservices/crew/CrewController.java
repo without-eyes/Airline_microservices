@@ -76,7 +76,7 @@ public class CrewController {
     @PatchMapping("/{flightId}/{crewMemberId}")
     public ResponseEntity<CrewMember> removeCrewMemberFromFlight(@PathVariable Long flightId, @PathVariable Long crewMemberId) {
         CrewMember crewMember = crewMemberService.getCrewMemberById(crewMemberId);
-        crewMember.setFlight(null);
+        crewMember.setFlightId(-1L);
         crewMemberService.saveCrewMember(crewMember);
         return ResponseEntity.ok(crewMember);
     }
