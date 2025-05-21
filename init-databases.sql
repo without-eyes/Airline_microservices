@@ -1,0 +1,6 @@
+CREATE DATABASE IF NOT EXISTS flight_db;
+
+GRANT ALL PRIVILEGES ON crew_db.* TO 'admin'@'%';
+GRANT ALL PRIVILEGES ON flight_db.* TO 'admin'@'%';
+
+FLUSH PRIVILEGES;

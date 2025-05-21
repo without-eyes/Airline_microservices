@@ -8,6 +8,8 @@ services:
       - "3307:3306"
     networks:
       - airline_network
+    volumes:
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
 
   flight-service:
     build:
